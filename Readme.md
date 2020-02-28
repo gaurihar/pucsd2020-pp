@@ -1,2 +1,2 @@
 Assignment 001:how build and run the code
-Assihnment 002:resume
+Assignment 002:resume using html and css
