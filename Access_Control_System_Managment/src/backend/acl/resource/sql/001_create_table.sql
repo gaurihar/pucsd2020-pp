@@ -1,15 +1,13 @@
 USE ACL;
 
 
-
 CREATE TABLE IF NOT EXISTS user_info (
     user_id                  INT         AUTO_INCREMENT      PRIMARY KEY,
-    user_is_root         TINYINT(1)   NOT NULL,
     first_name          VARCHAR(25)    NOT NULL,
     last_name           VARCHAR(25)    NOT NULL,
     email               VARCHAR(64)    NOT NULL UNIQUE,
     password            VARBINARY(128)    NOT NULL,
-    contact_number      VARCHAR(15)    NOT NULL,
+    user_is_root         TINYINT(1)   NOT NULL DEFAULT 0 ,
     creation_date       DATETIME    DEFAULT CURRENT_TIMESTAMP,
     last_update         DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by          INT         NOT NULL DEFAULT 0,
