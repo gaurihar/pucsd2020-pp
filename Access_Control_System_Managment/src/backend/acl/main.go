@@ -34,7 +34,15 @@ func init() {
 	//log.Printf("Passing dbConnection String to Handler")
 	handlers = []handler.IHTTPHandler{
 				
-				httpHandler.NewUserHandler(dbConn),
+				httpHandler.NewUser1Handler(dbConn),
+				httpHandler.NewGroupsHandler(dbConn),
+				httpHandler.NewUserGroupHandler(dbConn),
+				httpHandler.NewResourcesHandler(dbConn),
+				httpHandler.NewUserPermissionHandler(dbConn),
+				httpHandler.NewGroupPermissionHandler(dbConn),
+				httpHandler.NewResourcesTypeHandler(dbConn),
+				httpHandler.NewPermissionHandler(dbConn),
+				           
 	}
 }
 
