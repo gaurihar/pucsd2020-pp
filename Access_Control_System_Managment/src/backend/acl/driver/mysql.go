@@ -318,7 +318,7 @@ func GetById(conn *sql.DB, object model.IModel, id int64) (model.IModel, error) 
 }
 
 func GetAll(conn *sql.DB, object model.IModel, limit, offset int64) ([]interface{}, error) {
-	//log.Printf("Reading object values from interface type using reflection")
+	
 	rValue := reflect.ValueOf(object)
 	rType := reflect.TypeOf(object)
 
@@ -350,7 +350,7 @@ func GetAll(conn *sql.DB, object model.IModel, limit, offset int64) ([]interface
 	}
 
 	query := queryBuffer.String()
-	//	log.Printf("GetById sql: %s\n", query)
+
 	row, err := conn.Query(query, params...)
 
 	if nil != err {
