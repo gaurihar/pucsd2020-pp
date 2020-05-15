@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS user_info (
     id                  INT         AUTO_INCREMENT      PRIMARY KEY,
     first_name          VARCHAR(25)    NOT NULL,
     last_name           VARCHAR(25)    NOT NULL,
-    username            VARCHAR(25)    NOT NULL,
     email               VARCHAR(64)    NOT NULL UNIQUE,
     password            VARBINARY(128)    NOT NULL,
     is_user_root         TINYINT(1)   NOT NULL DEFAULT 0 ,
