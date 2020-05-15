@@ -1,0 +1,26 @@
+//user
+http://localhost:9090/webapi/v1/user
+
+
+//groups
+
+http://localhost:9090/webapi/v1/groups
+
+//resources
+curl -X GET http://localhost:9090/webapi/v1/resources
+
+
+//usergroup
+
+curl -X GET http://localhost:9090/webapi/v1/usergroup
+
+//userpermission
+curl -X GET http://localhost:9090/webapi/v1/userpermission
+
+//grouppermission
+curl -X GET http://localhost:9090/webapi/v1/grouppermission
+
+resourcetype:
+curl -X GET http://localhost:9090/webapi/v1/resourcestype
+
+
