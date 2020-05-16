@@ -64,10 +64,10 @@ func (resources *resourcesRepository) Update(cntx context.Context, obj interface
 	return obj, err
 }
 
-func (resources *resourcesRepository) Delete(cntx context.Context, id int64) error {
+func (resources *resourcesRepository) Delete(cntx context.Context, id int64) (interface{}, error) {
 	//log.Printf("Getting context and creating model.Resources object repository/resources module")
 	obj := &model.Resources{Id: id}
-	return driver.SoftDeleteById(resources.conn, obj, id)
+	return driver.DeleteById(resources.conn, obj, id)
 }
 
 func (resources *resourcesRepository) GetAll(cntx context.Context) ([]interface{}, error) {
