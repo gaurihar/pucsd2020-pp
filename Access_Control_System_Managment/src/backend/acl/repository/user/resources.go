@@ -37,13 +37,11 @@ func (resources*resourcesRepository) Create(cntx context.Context, obj interface{
 		basepath := usr.ResourcePath
 		foldername := usr.ResourceName
 		_, err := os.Stat(filepath.Join(basepath, foldername, "/"))
- 		
-	if os.IsNotExist(err) {
+        if os.IsNotExist(err) {
 		errDir := os.MkdirAll(usr.ResourcePath+"/"+usr.ResourceName, 0755)
 		if errDir != nil {
 			return 0, err
 		}
-	
 	}
 
 	}
@@ -59,15 +57,32 @@ func (resources*resourcesRepository) Create(cntx context.Context, obj interface{
 func (resources *resourcesRepository) Update(cntx context.Context, obj interface{}) (interface{}, error) {
 	//log.Printf("Getting context and creating model.Resources object in repository/resources module")
 	usr := obj.(model.Resources)
-	
 	err := driver.UpdateById(resources.conn, &usr)
+	
 	return obj, err
 }
 
 func (resources *resourcesRepository) Delete(cntx context.Context, id int64) (interface{}, error) {
-	//log.Printf("Getting context and creating model.Resources object repository/resources module")
-	obj := &model.Resources{Id: id}
-	return driver.DeleteById(resources.conn, obj, id)
+	usr := &model.Resources{Id: id}
+	/*Lines to delete file over the server*/
+	obj := new(model.Resources)
+	driver.GetById(resources.conn, obj, id)
+	if obj.ResourceTypeId == 1 {
+	basepath := obj.ResourcePath
+	filename := obj.ResourceName 
+	os.Remove(filepath.Join(basepath, filename, "/"))
+	}
+
+	if obj.ResourceTypeId == 2 {
+		basepath := obj.ResourcePath
+		foldername := obj.ResourceName
+		_, err := os.Stat(filepath.Join(basepath, foldername, "/"))
+	if os.IsNotExist(err)!= true{
+		os.Remove(filepath.Join(basepath, foldername, "/"))
+	}
+
+	}
+	return driver.DeleteById(resources.conn, usr, id)
 }
 
 func (resources *resourcesRepository) GetAll(cntx context.Context) ([]interface{}, error) {
