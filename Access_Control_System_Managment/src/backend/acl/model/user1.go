@@ -1,7 +1,7 @@
 package model
 
 type User1 struct {
-	Id            int64  `json:"id,omitempty" key:"primary" autoincr:"1" column:"id"`
+	Id            int64  `json:"id,omitempty" key:"primary" column:"id"`
 	FirstName     string `json:"first_name" column:"first_name"`
 	LastName      string `json:"last_name" column:"last_name"`
 	Email         string `json:"email" column:"email"`

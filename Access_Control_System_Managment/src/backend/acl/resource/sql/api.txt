@@ -45,3 +45,12 @@ curl -X POST -d '{"resource_id":2,"id":2 ,"permission_id":110}' http://localhost
 
 //group_permission
 curl -X POST -d '{"resource_id":2,"id":2 ,"permission_id":110}' http://localhost:9090/webapi/v1/grouppermission
+
+
+curl -X POST -d '{"resource_type_id":2 ,"resource_parent":2 ,"resource_name":"Nihal" ,"resource_path":"/home/gauri/"}' http://localhost:9090/webapi/v1/resources
+
+curl -X DELETE  http://localhost:9090/webapi/v1/resources/3
+
+
+
+

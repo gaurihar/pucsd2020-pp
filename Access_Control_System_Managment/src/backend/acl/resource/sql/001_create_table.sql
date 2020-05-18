@@ -2,7 +2,7 @@ USE ACL;
 
 
 CREATE TABLE IF NOT EXISTS user_info (
-    id                  INT         AUTO_INCREMENT      PRIMARY KEY,
+    id                  INT            PRIMARY KEY,
     first_name          VARCHAR(25)    NOT NULL,
     last_name           VARCHAR(25)    NOT NULL,
     email               VARCHAR(64)    NOT NULL UNIQUE,
@@ -40,13 +40,13 @@ resource_info varchar(50) NOT NULL
 CREATE TABLE IF NOT EXISTS resources(
     id            INT        AUTO_INCREMENT      PRIMARY KEY,
     resource_type_id    INT    NOT NULL,
-    resource_parent INT NOT NULL,
     resource_name    VARCHAR(50)    NOT NULL, 
     resource_path    VARCHAR(100)    NOT NULL, 
     creation_date       DATETIME    DEFAULT CURRENT_TIMESTAMP,
     last_update         DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by          INT         NOT NULL DEFAULT 0,
-    deleted             TINYINT(1)  NOT NULL DEFAULT 0
+    deleted             TINYINT(1)  NOT NULL DEFAULT 0,
+   FOREIGN KEY(resource_type_id) REFERENCES resources_type(id) ON DELETE CASCADE ON UPDATE CASCADE 
 )ENGINE = INNODB CHARACTER SET=utf8;
 
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS user_group (
     id            INT NOT NULL,
     user_id             INT  NOT NULL,
     FOREIGN KEY(user_id) REFERENCES user_info(id) ,
-    FOREIGN KEY(id) REFERENCES groups(id) ,
+    FOREIGN KEY(id) REFERENCES groups(id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY(id,user_id)
 )ENGINE = INNODB CHARACTER SET=utf8;
 
@@ -63,9 +63,9 @@ CREATE TABLE IF NOT EXISTS user_permission
 resource_id INT NOT NULL,
 id INT NOT NULL,
 permission_id INT NOT NULL,
-FOREIGN KEY(id) REFERENCES user_info(id) ,
-FOREIGN KEY(resource_id) REFERENCES resources(id),
-FOREIGN KEY(permission_id) REFERENCES permission(id) ,
+FOREIGN KEY(id) REFERENCES user_info(id) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY(resource_id) REFERENCES resources(id)  ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY(permission_id) REFERENCES permission(id) ON DELETE CASCADE ON UPDATE CASCADE ,
 PRIMARY KEY(resource_id,id,permission_id)
 )ENGINE = INNODB CHARACTER SET=utf8;
 
@@ -75,8 +75,8 @@ CREATE TABLE IF NOT EXISTS group_permission
 resource_id INT NOT NULL,
 id INT  NOT NULL, #group
 permission_id INT NOT NULL,
-FOREIGN KEY(id) REFERENCES groups(id) ,
-FOREIGN KEY(resource_id) REFERENCES resources(id) ,
-FOREIGN KEY(permission_id) REFERENCES permission(id),
+FOREIGN KEY(id) REFERENCES groups(id)  ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY(resource_id) REFERENCES resources(id)  ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY(permission_id) REFERENCES permission(id)  ON DELETE CASCADE ON UPDATE CASCADE,
 PRIMARY KEY(resource_id,id,permission_id)
 )ENGINE = INNODB CHARACTER SET=utf8;
