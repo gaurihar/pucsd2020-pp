@@ -1,0 +1,75 @@
+
+Search
+<input type="text" (keyup)=id($event)>
+<button (click)="getbyid()">Submit</button>
+<button id="all" type="submit" class="btn btn-primary" (click)=getall() >All Users</button>
+<br>
+
+<div *ngIf="byid==false">
+    <div class="card-columns" >
+        <div class="card" *ngFor="let user of users">
+            <div id="cd" class="card-body" >
+                <h1>Id : {{user.id}}</h1>
+                <h4>{{user.first_name}}</h4>
+                <h5>{{user.last_name}}</h5>
+                <td>{{user.email}}</td>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="byid==true">
+    <div class="card-columns">
+        <div class="card" *ngFor="let user of users">
+            <div id="cd" class="card-body" >
+                <h1>Id : {{user.id}}</h1>
+                <h4>{{user.first_name}}</h4>
+                <h5>{{user.last_name}}</h5>
+                <td>{{user.email}}</td>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<table id="users">
+
+	<tr>
+		<th>Id</th>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Email</th>
+		<th>Contact Number</th>
+		<th>Updated By</th>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>gauri</td>
+		<td>darde</td>
+		<td>g@gmail.com</td>
+		<td>123456</td>
+		<td>0</td>
+	</tr>
+	
+-->
+
+
+
+<!--For="let usr of users ">
+		<td>{{usr?.id}}</td>
+		<td>{{usr?.first_name}}</td>
+		<td>{{usr?.last_name}}</td>
+		<td>{{usr?.email}}</td>
+		<td>{{usr?.password}}</td>
+		<td>{{usr?.contact_number}}</td>
+		<td>{{usr?.updated_by}}</td>
+	-<tr>-->
+
+
+<!--<mat-form-field>
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput type="search" placeholder="search here" class="search-input">
+</mat-form-field>
+-->

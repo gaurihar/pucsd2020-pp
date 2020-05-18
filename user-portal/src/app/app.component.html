@@ -1,0 +1,52 @@
+<div  class="portal">
+
+<mat-toolbar color="primary">
+ <p>USER PORTAL</p>
+</mat-toolbar>
+</div>
+<marquee behavior="slide" direction="left">welcome</marquee>
+  
+<div>
+<mat-toolbar color="primary">
+  <button mat-button routerLink="/home">Home</button>
+  <button mat-button routerLink="/adduser">AddUser</button>
+  <button mat-button routerLink="/search">Search</button>
+  <button mat-button routerLink="/display/">Display</button>
+  <button mat-button routerLink="/update/:id">Update</button>
+  <button mat-button routerLink="/delete/:id">Delete</button>
+
+  
+</mat-toolbar>
+</div>
+
+<!--
+<h2>Get Request (http://localhost:9090/webapi/v1/user/1)</h2>
+
+
+
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>First NAme</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Password</th>
+    <th>Contact Number</th>
+    <th>Updated By</th>
+  </tr>
+  <tr >
+    <td>{{user?.id}}</td>
+    <td>{{user?.first_name}}</td>
+    <td>{{user?.last_name}}</td>
+    <td>{{user?.email}}</td>
+    <td>{{user?.password}}</td>
+    <td>{{user?.contact_number}}</td>
+    <td>{{user?.updated_by}}</td>
+  </tr>
+
+</table>
+-->
+
+<router-outlet></router-outlet>
+
