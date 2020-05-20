@@ -27,7 +27,7 @@ curl -X GET http://localhost:9090/webapi/v1/resourcestype
 
 user:
 
-curl -X POST -d'{"first_name":"a","last_name":"z","email":"az@acl.com","password":"az" ,"is_user_root":0}' http://localhost:9090/webapi/v1/user
+curl -X POST -d'{"id":4,first_name":"a","last_name":"z","email":"az@acl.com","password":"az" ,"is_user_root":0}' http://localhost:9090/webapi/v1/user
 
 
 groups post
@@ -52,5 +52,7 @@ curl -X POST -d '{"resource_type_id":2 ,"resource_parent":2 ,"resource_name":"Ni
 curl -X DELETE  http://localhost:9090/webapi/v1/resources/3
 
 
+find the all groups of user:
+curl -X GET http://localhost:9090/webapi/v1/allgroupsofuser/3
 
 

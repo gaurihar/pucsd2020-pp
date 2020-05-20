@@ -54,3 +54,8 @@ func (usergroup *usergroupRepository) GetAll(cntx context.Context) ([]interface{
 	obj := &model.UserGroup{}
 	return driver.GetAll(usergroup.conn, obj, 0, 0)
 }
+func (usergroup *usergroupRepository) GetByColumnName(cntx context.Context, colname string, value interface{}) ([]interface{}, error) {
+	//log.Printf("Getting context and creating model.GroupPermission object repository/grouppermission module")
+	obj := &model.UserGroup{}
+	return driver.GetByColumnName(usergroup.conn, obj, colname,  value)
+}

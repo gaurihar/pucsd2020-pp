@@ -11,6 +11,8 @@ type IRepository interface {
 	Update(context.Context, interface{}) (interface{}, error)
 	Delete(context.Context, int64) (interface{}, error)
 	GetAll(context.Context) ([]interface{}, error)
+	GetByColumnName(context.Context, string, interface{}) ([]interface{}, error)
+
 }
 
 type Repository struct {
@@ -34,5 +36,8 @@ func (repo *Repository) Delete(cntx context.Context, id int64) (deleted bool, er
 }
 
 func (repo *Repository) GetAll(cntx context.Context) (obj []interface{}, err error) {
+	return
+}
+func (repo *Repository) GetByColumnName(cntx context.Context, id string) (obj interface{}, err error){
 	return
 }

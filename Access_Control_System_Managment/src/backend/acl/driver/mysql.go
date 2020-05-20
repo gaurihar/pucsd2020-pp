@@ -261,9 +261,6 @@ func UpdateByEmail(conn *sql.DB, object model.IModel) error {
 
 
 func GetById(conn *sql.DB, object model.IModel, id int64) (model.IModel, error) {
-	//log.Printf("Reading object values from interface type using reflection")
-
-
 	rValue := reflect.ValueOf(object)
 	rType := reflect.TypeOf(object)
 
@@ -290,7 +287,6 @@ func GetById(conn *sql.DB, object model.IModel, id int64) (model.IModel, error) 
 	queryBuffer.WriteString(" WHERE id = ?")
 
 	query := queryBuffer.String()
-	//	log.Printf("GetById sql: %s\n", query)
 	row, err := conn.Query(query, id)
 
 	if nil != err {
@@ -318,13 +314,9 @@ func GetById(conn *sql.DB, object model.IModel, id int64) (model.IModel, error) 
 }
 
 func GetAll(conn *sql.DB, object model.IModel, limit, offset int64) ([]interface{}, error) {
-	//log.Printf("Reading object values from interface type using reflection")
 	rValue := reflect.ValueOf(object)
 	rType := reflect.TypeOf(object)
-
 	columns := []string{}
-	pointers := make([]interface{}, 0)
-
 	for idx := 0; idx < rValue.Elem().NumField(); idx++ {
 		field := rType.Elem().Field(idx)
 		if COLUMN_INGNORE_FLAG == field.Tag.Get("ignore") {
@@ -333,9 +325,8 @@ func GetAll(conn *sql.DB, object model.IModel, limit, offset int64) ([]interface
 
 		column := field.Tag.Get("column")
 		columns = append(columns, column)
-		pointers = append(pointers, rValue.Elem().Field(idx).Addr().Interface())
+		
 	}
-
 	var queryBuffer bytes.Buffer
 	var params []interface{}
 
@@ -350,33 +341,40 @@ func GetAll(conn *sql.DB, object model.IModel, limit, offset int64) ([]interface
 	}
 
 	query := queryBuffer.String()
-	//	log.Printf("GetById sql: %s\n", query)
-	row, err := conn.Query(query, params...)
-
+	row, err := conn.Query(query)// params...)
 	if nil != err {
 		log.Printf("Error conn.Query: %s\n\tError Query: %s\n", err.Error(), query)
 		return nil, err
 	}
-
 	defer row.Close()
 	objects := make([]interface{}, 0)
+	
+	cols, err := row.Columns() // Remember to check err afterwards
+	
+	
 	for row.Next() {
 		if nil != err {
 			log.Printf("Error row.Columns(): %s\n\tError Query: %s\n", err.Error(), query)
 			return nil, err
 		}
-
-		err = row.Scan(pointers...)
+		vals := make([]interface{}, len(cols))
+		writeCols := make([]string, len(cols))
+		for i, _ := range cols {
+			vals[i] = &writeCols[i]
+		}		
+		err = row.Scan(vals...)
 		if nil != err {
+
 			log.Printf("Error: row.Scan: %s\n", err.Error())
 			return nil, err
 		}
-
-		objects = append(objects, object)
+		objects = append(objects, vals)
 	}
-
+	
 	return objects, nil
 }
+
+
 
 func DeleteById(conn *sql.DB, object model.IModel, id int64) (sql.Result, error) {
 	//log.Printf("Preparing delete String.")
@@ -430,4 +428,68 @@ func SoftDeleteById(conn *sql.DB, object model.IModel, id int64) error {
 	}
 
 	return err
+}
+
+func GetByColumnName(conn *sql.DB, object model.IModel, colname string,value interface{}) ([]interface{}, error) {
+	rValue := reflect.ValueOf(object)
+	rType := reflect.TypeOf(object)
+
+	columns := []string{}
+	pointers := make([]interface{}, 0)
+
+	for idx := 0; idx < rValue.Elem().NumField(); idx++ {
+		field := rType.Elem().Field(idx)
+		if COLUMN_INGNORE_FLAG == field.Tag.Get("ignore") {
+			continue
+		}
+
+		column := field.Tag.Get("column")
+		columns = append(columns, column)
+		pointers = append(pointers, rValue.Elem().Field(idx).Addr().Interface())
+	}
+
+	var queryBuffer bytes.Buffer
+
+	queryBuffer.WriteString("SELECT ")
+	queryBuffer.WriteString(strings.Join(columns, ", "))
+	queryBuffer.WriteString(" FROM ")
+	queryBuffer.WriteString(object.Table())
+	queryBuffer.WriteString(" WHERE ")
+	queryBuffer.WriteString(colname)
+	queryBuffer.WriteString(" = ? ")
+
+	query := queryBuffer.String()
+	row, err := conn.Query(query, value)
+
+	if nil != err {
+		log.Printf("Error conn.Query: %s\n\tError Query: %s\n", err.Error(), query)
+		return nil, err
+	}
+
+	defer row.Close()
+	objects := make([]interface{}, 0)
+	
+	cols, err := row.Columns() // Remember to check err afterwards
+	
+	
+	for row.Next() {
+		if nil != err {
+			log.Printf("Error row.Columns(): %s\n\tError Query: %s\n", err.Error(), query)
+			return nil, err
+		}
+		vals := make([]interface{}, len(cols))
+		writeCols := make([]string, len(cols))
+		for i, _ := range cols {
+			vals[i] = &writeCols[i]
+		}		
+		err = row.Scan(vals...)
+		if nil != err {
+
+			log.Printf("Error: row.Scan: %s\n", err.Error())
+			return nil, err
+		}
+		objects = append(objects, vals)
+	}
+	
+	return objects, nil
 }

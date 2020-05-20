@@ -35,7 +35,7 @@ func(user *UserGroup) GetHTTPHandler() []*handler.HTTPHandler {
 		&handler.HTTPHandler{Authenticated: true, Method: http.MethodDelete, Path: "usergroup/{id}", Func: user.Delete},
 		&handler.HTTPHandler{Authenticated: true, Method: http.MethodGet, Path: "usergroup", Func: user.GetAll},
 		&handler.HTTPHandler{Authenticated: true, Method: http.MethodPatch, Path: "usergroup/{id}", Func: user.Update},
-
+		&handler.HTTPHandler{Authenticated: false, Method: http.MethodGet, Path: "allgroupsofuser/{user_id}", Func: user.GetByColumnName},
 	}
 }
 func (user *UserGroup) GetByID(w http.ResponseWriter, r *http.Request) {
@@ -127,4 +127,18 @@ func (user *UserGroup) GetAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Calling Getall Function")	
 	usrs, err := user.repo.GetAll(r.Context())
 	handler.WriteJSONResponse(w, r, usrs, http.StatusOK, err)
+}
+
+func (user *UserGroup) GetByColumnName(w http.ResponseWriter, r *http.Request) {
+	var grp interface{}
+	id, err := strconv.ParseInt(chi.URLParam(r, "user_id"), 10, 64)
+	for {
+		if nil != err {
+			break
+		}
+		grp, err = user.repo.GetByColumnName(r.Context(),"user_id",id)
+		
+		break
+	}
+	handler.WriteJSONResponse(w, r, grp, http.StatusOK, err)
 }

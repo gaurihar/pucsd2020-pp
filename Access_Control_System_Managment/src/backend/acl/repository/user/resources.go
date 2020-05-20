@@ -91,3 +91,8 @@ func (resources *resourcesRepository) GetAll(cntx context.Context) ([]interface{
 	obj := &model.Resources{}
 	return driver.GetAll(resources.conn, obj, 0, 0)
 }
+func (resources *resourcesRepository) GetByColumnName(cntx context.Context, colname string, value interface{}) ([]interface{}, error) {
+	//log.Printf("Getting context and creating model.GroupPermission object repository/grouppermission module")
+	obj := &model.Resources{}
+	return driver.GetByColumnName(resources.conn, obj, colname,  value)
+}
