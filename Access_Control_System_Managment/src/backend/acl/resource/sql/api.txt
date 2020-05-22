@@ -56,3 +56,15 @@ find the all groups of user:
 curl -X GET http://localhost:9090/webapi/v1/allgroupsofuser/3
 
 
+output:{"status":200,"data":[["2","3"],["3","3"]]}
+
+ curl -X GET http://localhost:9090/webapi/v1/groups
+{"status":200,"data":[["1","root","0"],["2","gr15","0"],["3","gr16","0"],["4","gr16","0"]]}
+
+all user in groups:
+
+
+curl -X GET  http://localhost:9090/webapi/v1/usergroup/15
+
+{"status":200,"data":[["15","2"],["15","3"]]}
+

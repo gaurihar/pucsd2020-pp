@@ -9,7 +9,6 @@ import (
 	"reflect"
 	"strings"
 	"time"
-
 	"github.com/pucsd2020-pp/Access_Control_System_Managment/src/backend/acl/config"
 	"github.com/pucsd2020-pp/Access_Control_System_Managment/src/backend/acl/model"
 
@@ -259,7 +258,6 @@ func UpdateByEmail(conn *sql.DB, object model.IModel) error {
 	return err
 }
 
-
 func GetById(conn *sql.DB, object model.IModel, id int64) (model.IModel, error) {
 	rValue := reflect.ValueOf(object)
 	rType := reflect.TypeOf(object)
@@ -277,6 +275,15 @@ func GetById(conn *sql.DB, object model.IModel, id int64) (model.IModel, error) 
 		columns = append(columns, column)
 		pointers = append(pointers, rValue.Elem().Field(idx).Addr().Interface())
 	}
+	//log.Println(len(columns))
+/*	for i, v := range columns {
+ 		   if v == "" {
+        	columns = append(columns[:i], columns[i+1:]...)
+        	pointers = append(pointers[:i], pointers[i+1:]...)
+        	break
+    		}
+		}
+*/
 
 	var queryBuffer bytes.Buffer
 
@@ -312,6 +319,7 @@ func GetById(conn *sql.DB, object model.IModel, id int64) (model.IModel, error) 
 
 	return object, nil
 }
+
 
 func GetAll(conn *sql.DB, object model.IModel, limit, offset int64) ([]interface{}, error) {
 	rValue := reflect.ValueOf(object)

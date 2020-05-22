@@ -4,7 +4,7 @@ USE ACL;
 insert into user_info (id,first_name,last_name,email,password,is_user_root) values(1,'ACL','SYSTEM','acl.system@acl.com','password',1);
 
 /* groups*/
-insert into groups(group_name) values('root');
+insert into groups(id,group_name) values(1,'root');
 
 /*permission table */
 insert into permission(id,permission_info) values(100,"read");

@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS user_info (
 )ENGINE = INNODB CHARACTER SET=utf8;
 
 CREATE TABLE IF NOT EXISTS groups (
-    id            INT         AUTO_INCREMENT      PRIMARY KEY,
+    id            INT    PRIMARY KEY,
     group_name           VARCHAR(50)    NOT NULL,            
     creation_date       DATETIME    DEFAULT CURRENT_TIMESTAMP,
     last_update         DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

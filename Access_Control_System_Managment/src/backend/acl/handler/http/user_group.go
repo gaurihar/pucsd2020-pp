@@ -48,7 +48,7 @@ func (user *UserGroup) GetByID(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		
-		usr, err = user.repo.GetByID(r.Context(), id)
+		usr, err = user.repo.GetByColumnName(r.Context(), "id",id)
 		break
 	}
 	log.Printf("Writing response in JSON")
